@@ -48,15 +48,15 @@ const Food = () => {
   const handleDelete = async (id) => {
     try {
       const token = await getToken();
-      await fetch(`${API_BASE}/food/${id}`,
+      await fetch(`${API_BASE}/food?id=${id}`,
         { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
       setFoods(foods.filter(f => f.id !== id));
     } catch (e) {}
   };
-
+console.log(foods)
   return (
     <div className="center-page">
-      <h1>Foods</h1>
+      <h1 className="text-2xl font-bold">Food</h1>
       <FoodForm onAdd={handleAdd} />
       {loading ? <p>Loading...</p> : <FoodList foods={foods} onDelete={handleDelete} />}
     </div>
