@@ -1,0 +1,26 @@
+project_name = "poopjournal3-ui"
+
+aws_region  = "us-east-1"
+aws_profile = "jds"
+
+bucket_name = "poopjournal3-ui-prod-site"
+
+# CloudFront custom domain setup
+aliases          = ["poopjournal.com", "www.poopjournal.com"]
+hosted_zone_name = "poopjournal.com"
+
+# ACM certificate must be in us-east-1 when used with CloudFront
+acm_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/replace-me"
+
+price_class         = "PriceClass_100"
+default_root_object = "index.html"
+force_destroy       = false
+
+# Set true after running `npm run build` so Terraform uploads `../dist`
+upload_dist = false
+dist_path   = "../dist"
+
+tags = {
+  Environment = "prod"
+  ManagedBy   = "terraform"
+}
