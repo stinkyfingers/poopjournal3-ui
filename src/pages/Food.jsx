@@ -53,9 +53,9 @@ const Food = () => {
       setFoods(foods.filter(f => f.id !== id));
     } catch (e) {}
   };
-console.log(foods)
+
   return (
-    <div className="center-page">
+    <div className="">
       <h1 className="text-2xl font-bold">Food</h1>
       <FoodForm onAdd={handleAdd} />
       {loading ? <p>Loading...</p> : <FoodList foods={foods} onDelete={handleDelete} />}

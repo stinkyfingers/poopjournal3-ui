@@ -50,6 +50,8 @@ const PoopForm = ({ onAdd }) => {
     setTimestamp(formatLocalDatetimeInput(roundToNearest15()));
   };
 
+  const disabled = !timestamp;
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
@@ -125,7 +127,7 @@ const PoopForm = ({ onAdd }) => {
       </div>
 
       <div className="flex justify-end mt-2">
-        <Button type="submit">Add Poop</Button>
+        <Button type="submit" className="disabled:opacity-50" disabled={disabled}>Add Poop</Button>
       </div>
     </form>
   );

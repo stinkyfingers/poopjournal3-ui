@@ -39,6 +39,8 @@ const FoodForm = ({ onAdd }) => {
     setDatetime(formatLocalDatetimeInput(roundToNearest15()));
   };
 
+  const disabled = !name || !datetime;
+
   return (
     <form onSubmit={handleSubmit}>
       <div
@@ -113,7 +115,7 @@ const FoodForm = ({ onAdd }) => {
       <div
         className="flex justify-end mt-2"
       >
-        <Button type="submit" className="">Add Food</Button>
+        <Button type="submit" className="disabled:opacity-50" disabled={disabled}>Add Food</Button>
       </div>
     </form>
   );

@@ -13,7 +13,7 @@ const formatCreatedAt = (createdAt) => {
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
 
-  return `${hours}:${minutes} ${year}:${month}:${day}`;
+  return `${year}/${month}/${day} ${hours}:${minutes}`;
 };
 
 const FoodList = ({ foods, onDelete }) => (

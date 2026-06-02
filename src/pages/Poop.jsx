@@ -61,7 +61,7 @@ const Poop = () => {
   };
 
   return (
-    <div className="center-page">
+    <div className="">
       <h1 className="text-2xl font-bold">Poop</h1>
       <PoopForm onAdd={handleAdd} />
       {loading ? <p>Loading...</p> : <PoopList poops={poops} onDelete={handleDelete} />}

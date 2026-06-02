@@ -9,7 +9,7 @@ function App() {
   return (
     <ClerkProvider>
       <Router>
-        <div style={{ display: 'flex' }}>
+        <div className="flex h-screen bg-gray-100">
           <Sidebar />
           <main style={{ marginLeft: 200, flex: 1 }}>
             <AppRouter />
