@@ -27,6 +27,7 @@ const Food = () => {
       console.error('Failed to add food entry', error);
     }
   };
+  console.log(foods)
 
   const handleDelete = async (id) => {
     try {
