@@ -1,33 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import FoodForm from '../components/FoodForm';
 import FoodList from '../components/FoodList';
+import { FoodContext } from '../context/Food';
 import { useAuth } from '@clerk/react'
 import { API_BASE } from '../config';
 
 
 const Food = () => {
-  const [foods, setFoods] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { foods, loading, onRefresh } = React.useContext(FoodContext);
   const { getToken } = useAuth();
-
-  useEffect(() => {
-    const fetchFoods = async () => {
-      setLoading(true);
-      try {
-        const token = await getToken();
-        const res = await fetch(`${API_BASE}/food`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setFoods(data.foods || data); // adjust if API shape differs
-      } catch (e) {
-        setFoods([]);
-      }
-      setLoading(false);
-    };
-    fetchFoods();
-    // eslint-disable-next-line
-  }, []);
 
   const handleAdd = async (food) => {
     try {
@@ -40,9 +21,11 @@ const Food = () => {
         },
         body: JSON.stringify(food),
       });
-      const data = await res.json();
-      setFoods([...foods, data]);
-    } catch (e) {}
+      await res.json();
+      onRefresh();
+    } catch (error) {
+      console.error('Failed to add food entry', error);
+    }
   };
 
   const handleDelete = async (id) => {
@@ -50,8 +33,10 @@ const Food = () => {
       const token = await getToken();
       await fetch(`${API_BASE}/food?id=${id}`,
         { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
-      setFoods(foods.filter(f => f.id !== id));
-    } catch (e) {}
+      onRefresh();
+    } catch (error) {
+      console.error('Failed to delete food entry', error);
+    }
   };
 
   return (

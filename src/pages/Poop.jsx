@@ -1,35 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useAuth } from '@clerk/react';
 import PoopForm from '../components/PoopForm';
 import PoopList from '../components/PoopList';
+import { PoopContext } from '../context/Poop';
 import { API_BASE } from '../config';
 
 const Poop = () => {
-  const [poops, setPoops] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { poops, loading, onRefresh } = React.useContext(PoopContext);
   const { getToken } = useAuth();
 
-  useEffect(() => {
-    const fetchPoops = async () => {
-      setLoading(true);
-      try {
-        const token = await getToken();
-        const res = await fetch(`${API_BASE}/poop`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setPoops(data.poops || data);
-      } catch {
-        setPoops([]);
-      }
-      setLoading(false);
-    };
-
-    fetchPoops();
-    // eslint-disable-next-line
-  }, []);
-
-  const handleAdd = async (poop) => {
+    const handleAdd = async (poop) => {
     try {
       const token = await getToken();
       const res = await fetch(`${API_BASE}/poop`, {
@@ -40,8 +20,8 @@ const Poop = () => {
         },
         body: JSON.stringify(poop),
       });
-      const data = await res.json();
-      setPoops([...poops, data]);
+      await res.json();
+      onRefresh();
     } catch (error) {
       console.error('Failed to add poop entry', error);
     }
@@ -54,7 +34,7 @@ const Poop = () => {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      setPoops(poops.filter(poop => poop.id !== id));
+      onRefresh();
     } catch (error) {
       console.error('Failed to delete poop entry', error);
     }
