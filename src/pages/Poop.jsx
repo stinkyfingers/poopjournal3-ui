@@ -1,12 +1,12 @@
 import React from 'react';
 import { useAuth } from '@clerk/react';
+import { UserDataContext } from '../context/UserData';
 import PoopForm from '../components/PoopForm';
 import PoopList from '../components/PoopList';
-import { PoopContext } from '../context/Poop';
 import { API_BASE } from '../config';
 
 const Poop = () => {
-  const { poops, loading, onRefresh } = React.useContext(PoopContext);
+  const { poops, loading, onRefresh } = React.useContext(UserDataContext);
   const { getToken } = useAuth();
 
     const handleAdd = async (poop) => {

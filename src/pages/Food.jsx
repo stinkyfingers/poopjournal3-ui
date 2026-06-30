@@ -1,13 +1,13 @@
 import React from 'react';
 import FoodForm from '../components/FoodForm';
 import FoodList from '../components/FoodList';
-import { FoodContext } from '../context/Food';
+import { UserDataContext } from '../context/UserData';
 import { useAuth } from '@clerk/react'
 import { API_BASE } from '../config';
 
 
 const Food = () => {
-  const { foods, loading, onRefresh } = React.useContext(FoodContext);
+  const { foods, loading, onRefresh } = React.useContext(UserDataContext);
   const { getToken } = useAuth();
 
   const handleAdd = async (food) => {
@@ -27,7 +27,6 @@ const Food = () => {
       console.error('Failed to add food entry', error);
     }
   };
-  console.log(foods)
 
   const handleDelete = async (id) => {
     try {

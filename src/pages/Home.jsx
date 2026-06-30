@@ -1,20 +1,25 @@
 import React from 'react';
-import { FoodContext } from '../context/Food';
-import { PoopContext } from '../context/Poop';
+import { UserDataContext } from '../context/UserData';
 import PoopList from '../components/PoopList';
 import FoodList from '../components/FoodList';
 
 const Home = () => {
-  const { foods, loading: foodLoading } = React.useContext(FoodContext);
-  const { poops, loading: poopLoading } = React.useContext(PoopContext);
+  const { foods, poops, loading } = React.useContext(UserDataContext);
   return (
     <div className="center-page">
       <h1 className="text-2xl font-bold text-center">Dashboard</h1>
-      <h5 className="font-bold">Recent Poops</h5>
-      <PoopList poops={poops.slice(0, 5)} onDelete={null} />
-      <h5 className="font-bold">Recent Foods</h5>
-      <FoodList foods={foods.slice(0, 5)} onDelete={null} />
-      {/* TODO: Fetch and display summary from API */}
+      { poops?.length > 0 &&
+      <>
+        <h5 className="font-bold">Recent Poops</h5>
+        <PoopList poops={poops.slice(0, 5)} onDelete={null} />
+      </>
+      }
+      { foods?.length > 0 && 
+      <>
+        <h5 className="font-bold">Recent Foods</h5>
+        <FoodList foods={foods.slice(0, 5)} onDelete={null} />
+      </>
+      }
     </div>
   );
 };

@@ -1,39 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import { useAuth } from '@clerk/react'
 import { API_BASE } from '../config';
-import { PoopContext } from './Poop';
 
-export const PoopProvider = ({ children }) => {
+export const UserDataProvider = ({ children }) => {
   const [poops, setPoops] = useState([]);
+  const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(true);
   const { getToken } = useAuth();
 
   useEffect(() => {
-    const fetchPoops = async () => {
+    const fetchUserData = async () => {
       setLoading(true);
       try {
         const token = await getToken();
-        const res = await fetch(`${API_BASE}/poop`, {
+        const res = await fetch(`${API_BASE}/userdata`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        setPoops(data.poops || data); // adjust if API shape differs
+        setPoops(data.poops); 
+        setFoods(data.foods);
       } catch (e) {
-        console.error('Failed to fetch poop entries', e);
+        console.error('Failed to fetch user data', e);
         setPoops([]);
+        setFoods([]);
       }
       setLoading(false);
     };
-    fetchPoops();
+    fetchUserData();
     // eslint-disable-next-line
   }, [refresh]);
 
   const onRefresh = () => setRefresh(prev => !prev);
 
   return (
-    <PoopContext.Provider value={{ poops, loading, onRefresh,  }}>
+    <UserDataContext.Provider value={{ poops, foods, loading, onRefresh,  }}>
       {children}
-    </PoopContext.Provider>
+    </UserDataContext.Provider>
   );
 };
+
+export const UserDataContext = createContext({
+  poops: [],
+  foods: [],
+  loading: true,
+});
+
