@@ -18,8 +18,8 @@ export const UserDataProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        setPoops(data.poops); 
-        setFoods(data.foods);
+        setPoops(data.poops || []);
+        setFoods(data.foods || []);
       } catch (e) {
         console.error('Failed to fetch user data', e);
         setPoops([]);
